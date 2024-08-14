@@ -13,6 +13,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  ADMIN
+  USER
+}
+
 model User {
   id        String  @unique()@default(uuid()) @id
   name      String
@@ -25,6 +30,7 @@ model User {
   state     State   @relation(fields: [stateId], references: [id])
   city      City    @relation(fields: [cityId], references: [id])
   isBlocked Boolean @default(false)
+  role      Role   
 }
 
 model Country {

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Country } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { countryDto } from './country.dto';
@@ -12,14 +12,33 @@ export class CountryService {
    * @param {CountryDto} countryData - The data for the new country.
    * @returns {Promise<Country>} The created country object.
    */
-    async create(Countrydata:countryDto):Promise<Country> {
+    async create(countryData:countryDto):Promise<Country> {
+         // Check if a country with the same name already exists
+    const existingCountry = await this.prisma.country.findUnique({
+        where: { name: countryData.name },
+      });
+  
+      if (existingCountry) {
+        throw new HttpException(
+          { message: `Country with name "${countryData.name}" already exists.` },
+          HttpStatus.CONFLICT,
+        );
+      }
+  
+      try {
+        // Create the new country
         const country = await this.prisma.country.create({
-            data: {
-                ...Countrydata
-            }
-        })
+          data: { ...countryData },
+        });
         return country;
+      } catch (error) {
+        throw new HttpException(
+          { message: 'Error while creating country', details: error.message },
+          HttpStatus.BAD_REQUEST,
+        );
+      }
     }
+    
 
     /**
    * Retrieves all countries from the database.
