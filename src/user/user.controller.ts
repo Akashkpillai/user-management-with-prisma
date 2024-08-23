@@ -33,11 +33,11 @@ export class UserController {
   /**
    * Retrieves all users.
    * 
-   * @returns {Promise<User[]>} A list of all users.
+   * @returns {Promise<Omit<User, 'password'>[]>} A list of all users without password.
    */
-  @Get()
-  findAll() {
-    return this.userService.findAll();
+  @Post()
+  findAll(@Body() Body) {
+    return this.userService.findAll(Body);
   }
 
   /**
@@ -48,7 +48,7 @@ export class UserController {
    */
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+    return this.userService.findOne(id);
   }
 
   /**
@@ -60,8 +60,20 @@ export class UserController {
    */
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+    return this.userService.update(id, updateUserDto);
   }
+
+   /**
+   * Bolck or unBlock a user's details.
+   * 
+   * @param {string} id - The ID of the user to update.
+   * @param {UpdateUserDto} updateUserDto - The new data for updating the user.
+   * @returns {Promise<User>} The updated user object.
+   */
+   @Patch('block/:id')
+   blockOrUnblock(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+     return this.userService.blockAndUnbloc(id, updateUserDto);
+   }
 
   /**
    * Removes a user by ID.
@@ -71,6 +83,6 @@ export class UserController {
    */
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+    return this.userService.remove(id);
   }
 }

@@ -22,7 +22,7 @@ export class UserService {
    * @returns { Promise<User>} A message indicating the user was added.
    */
   async create(createUserDto: CreateUserDto): Promise<User> {
-    let {password,...rest} = createUserDto
+    const {password,...rest} = createUserDto
     //To check the user is already there 
     const Exuser = await this.prisma.user.findUnique({where:{email:rest.email}})
     if(Exuser){
@@ -54,7 +54,7 @@ export class UserService {
    */
   async login(loginDto:LoginDto):Promise<{access_token:string}>{
     const {email,password} = loginDto
-    const user = await this.prisma.user.findUnique({where:{email}})
+    const user = await this.prisma.user.findUnique({where:{email,isBlocked:{not:true}}})
     if(user){
       const isValidPassword = await bcrypt.compare(password,user.password)
       if(isValidPassword){
@@ -64,47 +64,95 @@ export class UserService {
         };
       }
     }else{
-      throw new HttpException('User not found',HttpStatus.NOT_FOUND)
+      throw new HttpException('User not found/User is Banned',HttpStatus.NOT_FOUND)
     }
   }
 
   /**
    * Retrieves all users.
    * 
-   * @returns {string} A message indicating the users are being returned.
+   * @returns {User[]} A message indicating the users are being returned.
    */
-  findAll(): string {
-    return `This action returns all user`;
+  async findAll(Body): Promise<Omit<User, 'password'>[]> {
+  let skip
+    let take
+    if(Body.page && Body.limit){
+       skip = (Body.page - 1) * Body.limit;
+       take = Body.limit
+    }
+    const users = await this.prisma.user.findMany(
+      {
+        skip:skip,
+        take:take,
+        include:{
+          country:true,
+          state:true,
+          city:true
+      },
+      orderBy: {
+        email: 'asc',
+      },
+      }
+    )
+    if(!users.length){
+      throw new HttpException('No users found',HttpStatus.NOT_FOUND)
+    }else{
+      const userWithoutPass = users.map(({ password, ...rest }) => rest);
+      return userWithoutPass;
+    }
   }
 
   /**
    * Retrieves a single user by ID.
    * 
-   * @param {number} id - The ID of the user to retrieve.
-   * @returns {string} A message indicating the user is being returned.
+   * @param {string} id - The ID of the user to retrieve.
+   * @returns {user} A message indicating the user is being returned.
    */
-  findOne(id: number): string {
-    return `This action returns a #${id} user`;
+ async findOne(id: string): Promise<User> {
+    const user = await this.prisma.user.findUnique({ where: { id } });
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }else{
+      return user
+    }
   }
 
   /**
    * Updates a user's details.
    * 
-   * @param {number} id - The ID of the user to update.
+   * @param {string} id - The ID of the user to update.
    * @param {UpdateUserDto} updateUserDto - The new data for updating the user.
-   * @returns {string} A message indicating the user was updated.
+   * @returns {User} A message indicating the user was updated.
    */
-  update(id: number, updateUserDto: UpdateUserDto): string {
-    return `This action updates a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+    let user = await this.prisma.user.findUnique({where:{id}})
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+    user = await this.prisma.user.update({where:{id},data:updateUserDto})
+    return user
   }
 
   /**
    * Removes a user by ID.
    * 
    * @param {number} id - The ID of the user to remove.
-   * @returns {string} A message indicating the user was removed.
+   * @returns {Promise<User>} A message indicating the user was removed.
    */
-  remove(id: number): string {
-    return `This action removes a #${id} user`;
+ async remove(id: string): Promise<User> {
+  const user = await this.prisma.user.findUnique({where:{id}})
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+    const Deluser = await this.prisma.user.delete({where:{id}})
+    return Deluser;
+  }
+  async blockAndUnbloc(id:string,updateUserDto:UpdateUserDto):Promise<string>{
+    let user = await this.prisma.user.findUnique({where:{id}})
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+    user = await this.prisma.user.update({where:{id},data:updateUserDto})
+    return "User Updated Successfully";
   }
 }
