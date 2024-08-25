@@ -4,7 +4,9 @@ export class cityDto{
     @IsNotEmpty()
     name:string
     @IsNotEmpty()
-    countryId:string
+    countryId:number
     @IsNotEmpty()
-    stateId:string
+    stateId:number
+    @IsNotEmpty()
+    code:number
 }

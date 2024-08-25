@@ -8,9 +8,9 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
     email: string;
     @MinLength(6)
     password: string;
-    countryId: string;
-    stateId: string;
-    cityId: string;
+    countryId: number;
+    stateId: number;
+    cityId: number;
     role: Roles;
     isBlocked:boolean;
 }

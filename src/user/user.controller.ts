@@ -1,9 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from '@prisma/client';
 import { LoginDto } from './dto/login-user.dto';
+import { AuthGuard } from 'src/guard/authentication.guard';
+import { AuthorizationGuard } from 'src/guard/authorization.guard';
+import { Roles } from 'src/decorators/role.decorator';
 
 @Controller('user')
 export class UserController {
@@ -35,6 +38,8 @@ export class UserController {
    * 
    * @returns {Promise<Omit<User, 'password'>[]>} A list of all users without password.
    */
+  @UseGuards(AuthGuard,AuthorizationGuard)
+  @Roles(["ADMIN"])
   @Post()
   findAll(@Body() Body) {
     return this.userService.findAll(Body);
@@ -46,6 +51,8 @@ export class UserController {
    * @param {string} id - The ID of the user to retrieve.
    * @returns {Promise<User>} The user object with the specified ID.
    */
+  @UseGuards(AuthGuard,AuthorizationGuard)
+  @Roles(["ADMIN"])
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.userService.findOne(id);
@@ -59,6 +66,8 @@ export class UserController {
    * @returns {Promise<User>} The updated user object.
    */
   @Patch(':id')
+  @UseGuards(AuthGuard,AuthorizationGuard)
+  @Roles(["ADMIN","USER"])
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(id, updateUserDto);
   }
@@ -70,9 +79,11 @@ export class UserController {
    * @param {UpdateUserDto} updateUserDto - The new data for updating the user.
    * @returns {Promise<User>} The updated user object.
    */
+   @UseGuards(AuthGuard,AuthorizationGuard)
+   @Roles(["ADMIN"])
    @Patch('block/:id')
    blockOrUnblock(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-     return this.userService.blockAndUnbloc(id, updateUserDto);
+     return this.userService.blockAndUnblock(id, updateUserDto);
    }
 
   /**
@@ -82,6 +93,8 @@ export class UserController {
    * @returns {Promise<User>} The deleted user object.
    */
   @Delete(':id')
+  @UseGuards(AuthGuard,AuthorizationGuard)
+  @Roles(["ADMIN"])
   remove(@Param('id') id: string) {
     return this.userService.remove(id);
   }

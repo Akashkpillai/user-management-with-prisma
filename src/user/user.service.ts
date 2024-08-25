@@ -147,7 +147,7 @@ export class UserService {
     const Deluser = await this.prisma.user.delete({where:{id}})
     return Deluser;
   }
-  async blockAndUnbloc(id:string,updateUserDto:UpdateUserDto):Promise<string>{
+  async blockAndUnblock(id:string,updateUserDto:UpdateUserDto):Promise<string>{
     let user = await this.prisma.user.findUnique({where:{id}})
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);

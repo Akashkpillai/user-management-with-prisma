@@ -24,8 +24,18 @@ export class CityService {
     async getAllState():Promise<City[]>{
         const state = await this.prisma.city.findMany({
             include:{
-                country:true,
-                state:true
+                country:{
+                    select:{
+                        name:true,
+                        id:true
+                    }
+                },
+                state:{
+                    select:{
+                        name:true,
+                        id:true
+                    }
+                },
             }
         })
         if(state && state.length){

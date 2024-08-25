@@ -4,5 +4,7 @@ export class StateDto{
     @IsNotEmpty()
     name: string;
     @IsNotEmpty()
-    countryId:string
+    countryId:number
+    @IsNotEmpty()
+    code: number;
 }

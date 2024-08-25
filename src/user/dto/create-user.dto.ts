@@ -12,9 +12,9 @@ export class CreateUserDto {
     @MinLength(6)
     password: string;
 
-    countryId: string;
-    stateId: string;
-    cityId: string;
+    countryId: number;
+    stateId: number;
+    cityId: number;
 
     @IsNotEmpty()
     role: Roles;

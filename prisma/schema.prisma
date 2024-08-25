@@ -23,12 +23,12 @@ model User {
   name      String
   email     String  @unique()
   password  String
-  countryId String
-  stateId   String
-  cityId    String
-  country   Country @relation(fields: [countryId], references: [id])
-  state     State   @relation(fields: [stateId], references: [id])
-  city      City    @relation(fields: [cityId], references: [id])
+  countryId Int
+  stateId   Int
+  cityId    Int
+  country   Country @relation(fields: [countryId], references: [code])
+  state     State   @relation(fields: [stateId], references: [code])
+  city      City    @relation(fields: [cityId], references: [code])
   isBlocked Boolean @default(false)
   role      Role   
 }
@@ -36,6 +36,7 @@ model User {
 model Country {
   id       String   @unique()@default(uuid()) @id
   name     String   @unique()
+  code     Int      @unique()
   users    User[]
   states   State[]
   cities   City[]
@@ -44,8 +45,9 @@ model Country {
 model State {
   id        String   @unique()@default(uuid()) @id
   name      String   @unique()
-  countryId String
-  country   Country  @relation(fields: [countryId], references: [id])
+  code      Int      @unique()
+  countryId Int
+  country   Country  @relation(fields: [countryId], references: [code])
   users     User[]
   cities    City[]
 }
@@ -53,9 +55,10 @@ model State {
 model City {
   id        String    @unique()@default(uuid()) @id
   name      String    @unique()
-  countryId String
-  stateId   String
-  country   Country @relation(fields: [countryId], references: [id])
-  state     State   @relation(fields: [stateId], references: [id])
+  code      Int       @unique()
+  countryId Int
+  stateId   Int
+  country   Country @relation(fields: [countryId], references: [code])
+  state     State   @relation(fields: [stateId], references: [code])
   users     User[]
 }
