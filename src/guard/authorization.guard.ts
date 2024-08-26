@@ -13,9 +13,7 @@ export class AuthorizationGuard implements CanActivate {
     const roles = this.reflector.getAllAndOverride<string[]>(ROLE_KEYS,[
         context.getHandler(),
       context.getClass(),
-    ]);
-    console.log(roles);
-    
+    ]);    
     const userRoles = request.user.role
     if(!roles.includes(userRoles)){
       throw new UnauthorizedException("No permission/sensitive data")

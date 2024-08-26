@@ -1,8 +1,13 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { CountryService } from './country.service';
 import { countryDto } from './country.dto';
 import { Country } from '@prisma/client';
+import { Roles } from 'src/decorators/role.decorator';
+import { AuthGuard } from 'src/guard/authentication.guard';
+import { AuthorizationGuard } from 'src/guard/authorization.guard';
 
+@UseGuards(AuthGuard,AuthorizationGuard)
+@Roles(["ADMIN"])
 @Controller('country')
 export class CountryController {
     constructor(private readonly countryService: CountryService) {}

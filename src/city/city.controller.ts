@@ -1,8 +1,13 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { CityService } from './city.service';
 import { cityDto } from './city.dto';
 import { City } from '@prisma/client';
+import { AuthorizationGuard } from 'src/guard/authorization.guard';
+import { AuthGuard } from 'src/guard/authentication.guard';
+import { Roles } from 'src/decorators/role.decorator';
 
+@UseGuards(AuthGuard,AuthorizationGuard)
+@Roles(["ADMIN"])
 @Controller('city')
 export class CityController {
     constructor(private cityService:CityService){}
