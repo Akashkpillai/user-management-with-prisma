@@ -5,10 +5,12 @@ import {  State } from '@prisma/client';
 import { Roles } from 'src/decorators/role.decorator';
 import { AuthGuard } from 'src/guard/authentication.guard';
 import { AuthorizationGuard } from 'src/guard/authorization.guard';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @UseGuards(AuthGuard,AuthorizationGuard)
 @Roles(["ADMIN"])
 @Controller('state')
+@ApiBearerAuth()
 export class StateController {
     constructor(private stateService:StateService){}
 /**
@@ -26,6 +28,7 @@ export class StateController {
  * @returns {Promise<State[]>} A list of all state
  */
     @Get()
+    @ApiBearerAuth()
     async getAllState():Promise<State[]>{
         return this.stateService.getAllState()
     }

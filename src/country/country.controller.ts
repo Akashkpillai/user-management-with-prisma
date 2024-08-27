@@ -5,10 +5,12 @@ import { Country } from '@prisma/client';
 import { Roles } from 'src/decorators/role.decorator';
 import { AuthGuard } from 'src/guard/authentication.guard';
 import { AuthorizationGuard } from 'src/guard/authorization.guard';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @UseGuards(AuthGuard,AuthorizationGuard)
 @Roles(["ADMIN"])
 @Controller('country')
+@ApiBearerAuth()
 export class CountryController {
     constructor(private readonly countryService: CountryService) {}
 

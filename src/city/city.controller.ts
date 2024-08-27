@@ -5,10 +5,12 @@ import { City } from '@prisma/client';
 import { AuthorizationGuard } from 'src/guard/authorization.guard';
 import { AuthGuard } from 'src/guard/authentication.guard';
 import { Roles } from 'src/decorators/role.decorator';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @UseGuards(AuthGuard,AuthorizationGuard)
 @Roles(["ADMIN"])
 @Controller('city')
+@ApiBearerAuth()
 export class CityController {
     constructor(private cityService:CityService){}
 /**
