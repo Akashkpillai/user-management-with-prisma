@@ -7,6 +7,7 @@ import { LoginDto } from './dto/login-user.dto';
 import { AuthGuard } from 'src/guard/authentication.guard';
 import { AuthorizationGuard } from 'src/guard/authorization.guard';
 import { Roles } from 'src/decorators/role.decorator';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('user')
 export class UserController {
@@ -41,6 +42,7 @@ export class UserController {
   @UseGuards(AuthGuard,AuthorizationGuard)
   @Roles(["ADMIN"])
   @Post()
+  @ApiBearerAuth()
   findAll(@Body() Body) {
     return this.userService.findAll(Body);
   }
@@ -53,6 +55,7 @@ export class UserController {
    */
   @UseGuards(AuthGuard,AuthorizationGuard)
   @Roles(["ADMIN"])
+  @ApiBearerAuth()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.userService.findOne(id);
@@ -68,6 +71,7 @@ export class UserController {
   @Patch(':id')
   @UseGuards(AuthGuard,AuthorizationGuard)
   @Roles(["ADMIN","USER"])
+  @ApiBearerAuth()
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(id, updateUserDto);
   }
@@ -81,6 +85,7 @@ export class UserController {
    */
    @UseGuards(AuthGuard,AuthorizationGuard)
    @Roles(["ADMIN"])
+  @ApiBearerAuth()
    @Patch('block/:id')
    blockOrUnblock(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
      return this.userService.blockAndUnblock(id, updateUserDto);
@@ -95,6 +100,7 @@ export class UserController {
   @Delete(':id')
   @UseGuards(AuthGuard,AuthorizationGuard)
   @Roles(["ADMIN"])
+  @ApiBearerAuth()
   remove(@Param('id') id: string) {
     return this.userService.remove(id);
   }
