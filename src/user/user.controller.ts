@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseFilters } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -8,8 +8,10 @@ import { AuthGuard } from 'src/guard/authentication.guard';
 import { AuthorizationGuard } from 'src/guard/authorization.guard';
 import { Roles } from 'src/decorators/role.decorator';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { HttpExceptionFilter } from 'src/filter/http-exception.filter';
 
 @Controller('user')
+@UseFilters(HttpExceptionFilter)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 

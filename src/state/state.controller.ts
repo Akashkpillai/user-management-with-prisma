@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, UseFilters, UseGuards } from '@nestjs/common';
 import { StateService } from './state.service';
 import { StateDto } from './state.dto';
 import {  State } from '@prisma/client';
@@ -6,10 +6,12 @@ import { Roles } from 'src/decorators/role.decorator';
 import { AuthGuard } from 'src/guard/authentication.guard';
 import { AuthorizationGuard } from 'src/guard/authorization.guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { HttpExceptionFilter } from 'src/filter/http-exception.filter';
 
 @UseGuards(AuthGuard,AuthorizationGuard)
 @Roles(["ADMIN"])
 @ApiBearerAuth()
+@UseFilters(HttpExceptionFilter)
 @Controller('state')
 export class StateController {
     constructor(private stateService:StateService){}

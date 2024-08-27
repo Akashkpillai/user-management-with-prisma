@@ -57,6 +57,9 @@ export class UserService {
     const user = await this.prisma.user.findUnique({where:{email,isBlocked:{not:true}}})
     if(user){
       const isValidPassword = await bcrypt.compare(password,user.password)
+      if(!isValidPassword){
+        throw new HttpException('Invalid password',HttpStatus.BAD_REQUEST)
+      }
       if(isValidPassword){
         const payload = {id:user.id,role:user.role}
         return {

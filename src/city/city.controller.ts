@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, UseFilters, UseGuards } from '@nestjs/common';
 import { CityService } from './city.service';
 import { cityDto } from './city.dto';
 import { City } from '@prisma/client';
@@ -6,11 +6,13 @@ import { AuthorizationGuard } from 'src/guard/authorization.guard';
 import { AuthGuard } from 'src/guard/authentication.guard';
 import { Roles } from 'src/decorators/role.decorator';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { HttpExceptionFilter } from 'src/filter/http-exception.filter';
 
 @UseGuards(AuthGuard,AuthorizationGuard)
 @Roles(["ADMIN"])
 @Controller('city')
 @ApiBearerAuth()
+@UseFilters(HttpExceptionFilter)
 export class CityController {
     constructor(private cityService:CityService){}
 /**
@@ -27,8 +29,8 @@ export class CityController {
  * Returns all the city list
  * @returns {Promise<City[]>} A list of all city
  */
-    @Get()
-    async getAllState():Promise<City[]>{
-        return this.cityService.getAllState()
+    @Post()
+    async getAllState(@Body() Body):Promise<City[]>{
+        return this.cityService.getAllState(Body)
     }
 }
