@@ -28,10 +28,10 @@ export class CountryController {
    * Retrieves all countries from the database.
    * @returns {Promise<Country[]>} A list of all countries.
    */
-    @Get()
-    async getAllCountries(): Promise<Country[]> {
+    @Post()
+    async getAllCountries(@Body() Body): Promise<Country[]> {
         try {
-          return await this.countryService.getAll();
+          return await this.countryService.getAll(Body);
         } catch (error) {
           console.error('Failed to fetch countries:', error);
           throw error;

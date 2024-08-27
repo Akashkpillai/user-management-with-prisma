@@ -44,9 +44,20 @@ export class CountryService {
    * Retrieves all countries from the database.
    * @returns {Promise<Country[]>} A list of all countries.
    */
-    async getAll():Promise<Country[]>{
-        const countries = await this.prisma.country.findMany();
-       return countries
+    async getAll(Body):Promise<Country[]>{
+      let skip
+      let take
+      if(Body.page && Body.limit){
+        skip = (Body.page - 1) * Body.limit;
+        take = Body.limit
+    }
+        const countries = await this.prisma.country.findMany(
+          {
+            skip:skip,
+            take:take,
+          }
+        );
+      return countries
     
     }
 }

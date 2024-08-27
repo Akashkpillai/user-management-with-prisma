@@ -9,8 +9,8 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 
 @UseGuards(AuthGuard,AuthorizationGuard)
 @Roles(["ADMIN"])
-@Controller('state')
 @ApiBearerAuth()
+@Controller('state')
 export class StateController {
     constructor(private stateService:StateService){}
 /**
@@ -27,9 +27,8 @@ export class StateController {
  * Returns all the state list
  * @returns {Promise<State[]>} A list of all state
  */
-    @Get()
-    @ApiBearerAuth()
-    async getAllState():Promise<State[]>{
-        return this.stateService.getAllState()
+    @Post()
+        async getAllState(@Body() Body):Promise<State[]>{
+        return this.stateService.getAllState(Body)
     }
 }

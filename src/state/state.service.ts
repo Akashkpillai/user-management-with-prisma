@@ -21,11 +21,19 @@ export class StateService {
      * Get all the state with country Data
      *  @returns {Promise<State[]>} A list of all countries.
      */
-    async getAllState():Promise<State[]>{
+    async getAllState(Body):Promise<State[]>{
+        let skip
+        let take
+        if(Body.page && Body.limit){
+            skip = (Body.page - 1) * Body.limit;
+            take = Body.limit
+        }
         const state = await this.prisma.state.findMany({
             include:{
                 country:true
-            }
+            },
+            skip:skip,
+            take:take,
         })
         if(state && state.length){
             return state
