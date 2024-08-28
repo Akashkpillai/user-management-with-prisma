@@ -15,7 +15,7 @@ import { SanitizeUserInterceptor } from 'src/interceptor/usersensitive.intercept
 @UseFilters(HttpExceptionFilter)
 @UseInterceptors(SanitizeUserInterceptor)
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   /**
    * Creates a new user.
@@ -24,15 +24,15 @@ export class UserController {
    * @returns {Promise<User>} The created user object.
    */
   @Post('/create')
-  create(@Body() createUserDto: CreateUserDto):Promise<User> {
+  create(@Body() createUserDto: CreateUserDto): Promise<User> {
     return this.userService.create(createUserDto);
   }
-   /**
-   *user login.
-   * 
-   * @param {LoginDto} LoginDto - The data for login.
-   * @returns { Promise<{access_token:string}>} A message indicating the jwt is made.
-   */
+  /**
+  *user login.
+  * 
+  * @param {LoginDto} LoginDto - The data for login.
+  * @returns { Promise<{access_token:string}>} A message indicating the jwt is made.
+  */
   @Post('/login')
   async login(@Body() loginUserDto: LoginDto): Promise<{ access_token: string }> {
     return await this.userService.login(loginUserDto);
@@ -43,7 +43,7 @@ export class UserController {
    * 
    * @returns {Promise<Omit<User, 'password'>[]>} A list of all users without password.
    */
-  @UseGuards(AuthGuard,AuthorizationGuard)
+  @UseGuards(AuthGuard, AuthorizationGuard)
   @Roles(["ADMIN"])
   @Post()
   @ApiBearerAuth()
@@ -57,7 +57,7 @@ export class UserController {
    * @param {string} id - The ID of the user to retrieve.
    * @returns {Promise<User>} The user object with the specified ID.
    */
-  @UseGuards(AuthGuard,AuthorizationGuard)
+  @UseGuards(AuthGuard, AuthorizationGuard)
   @Roles(["ADMIN"])
   @ApiBearerAuth()
   @Get(':id')
@@ -73,27 +73,27 @@ export class UserController {
    * @returns {Promise<User>} The updated user object.
    */
   @Patch(':id')
-  @UseGuards(AuthGuard,AuthorizationGuard)
-  @Roles(["ADMIN","USER"])
+  @UseGuards(AuthGuard, AuthorizationGuard)
+  @Roles(["ADMIN", "USER"])
   @ApiBearerAuth()
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(id, updateUserDto);
   }
 
-   /**
-   * Bolck or unBlock a user's details.
-   * 
-   * @param {string} id - The ID of the user to update.
-   * @param {UpdateUserDto} updateUserDto - The new data for updating the user.
-   * @returns {Promise<User>} The updated user object.
-   */
-   @UseGuards(AuthGuard,AuthorizationGuard)
-   @Roles(["ADMIN"])
+  /**
+  * Bolck or unBlock a user's details.
+  * 
+  * @param {string} id - The ID of the user to update.
+  * @param {UpdateUserDto} updateUserDto - The new data for updating the user.
+  * @returns {Promise<User>} The updated user object.
+  */
+  @UseGuards(AuthGuard, AuthorizationGuard)
+  @Roles(["ADMIN"])
   @ApiBearerAuth()
-   @Patch('block/:id')
-   blockOrUnblock(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-     return this.userService.blockAndUnblock(id, updateUserDto);
-   }
+  @Patch('block/:id')
+  blockOrUnblock(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.blockAndUnblock(id, updateUserDto);
+  }
 
   /**
    * Removes a user by ID.
@@ -102,7 +102,7 @@ export class UserController {
    * @returns {Promise<User>} The deleted user object.
    */
   @Delete(':id')
-  @UseGuards(AuthGuard,AuthorizationGuard)
+  @UseGuards(AuthGuard, AuthorizationGuard)
   @Roles(["ADMIN"])
   @ApiBearerAuth()
   remove(@Param('id') id: string) {

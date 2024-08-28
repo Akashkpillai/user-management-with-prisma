@@ -5,17 +5,17 @@ import { ROLE_KEYS } from 'src/decorators/role.decorator';
 
 @Injectable()
 export class AuthorizationGuard implements CanActivate {
-  constructor(private reflector:Reflector){}
+  constructor(private reflector: Reflector) { }
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest()
-    const roles = this.reflector.getAllAndOverride<string[]>(ROLE_KEYS,[
-        context.getHandler(),
+    const roles = this.reflector.getAllAndOverride<string[]>(ROLE_KEYS, [
+      context.getHandler(),
       context.getClass(),
-    ]);    
+    ]);
     const userRoles = request.user.role
-    if(!roles.includes(userRoles)){
+    if (!roles.includes(userRoles)) {
       throw new UnauthorizedException("No permission/sensitive data")
     }
     return true;
