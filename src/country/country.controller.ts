@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseFilters, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 import { CountryService } from './country.service';
 import { countryDto } from './country.dto';
 import { Country } from '@prisma/client';
@@ -7,12 +7,14 @@ import { AuthGuard } from 'src/guard/authentication.guard';
 import { AuthorizationGuard } from 'src/guard/authorization.guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { HttpExceptionFilter } from 'src/filter/http-exception.filter';
+import { ResponseInterceptor } from 'src/interceptor/resinterceptro';
 
+@Controller('country')
 @UseGuards(AuthGuard, AuthorizationGuard)
 @Roles(["ADMIN"])
-@Controller('country')
 @ApiBearerAuth()
 @UseFilters(HttpExceptionFilter)
+@UseInterceptors(ResponseInterceptor)
 export class CountryController {
   constructor(private readonly countryService: CountryService) { }
 

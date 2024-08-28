@@ -4,6 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { HttpExceptionFilter } from './filter/http-exception.filter';
 import { SanitizeUserInterceptor } from './interceptor/usersensitive.interceptor';
+import { ResponseInterceptor } from './interceptor/resinterceptro';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,8 +16,8 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
 
   // Global Intercption setup
-  app.useGlobalInterceptors(new SanitizeUserInterceptor());
-  
+  app.useGlobalInterceptors(new SanitizeUserInterceptor(),new ResponseInterceptor());
+
   // Swagger Setup
   const config = new DocumentBuilder()
     .setTitle("User Management")

@@ -10,10 +10,11 @@ import { Roles } from 'src/decorators/role.decorator';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { HttpExceptionFilter } from 'src/filter/http-exception.filter';
 import { SanitizeUserInterceptor } from 'src/interceptor/usersensitive.interceptor';
+import { ResponseInterceptor } from 'src/interceptor/resinterceptro';
 
 @Controller('user')
 @UseFilters(HttpExceptionFilter)
-@UseInterceptors(SanitizeUserInterceptor)
+@UseInterceptors(SanitizeUserInterceptor,ResponseInterceptor)
 export class UserController {
   constructor(private readonly userService: UserService) { }
 

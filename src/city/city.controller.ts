@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseFilters, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 import { CityService } from './city.service';
 import { cityDto } from './city.dto';
 import { City } from '@prisma/client';
@@ -7,12 +7,14 @@ import { AuthGuard } from 'src/guard/authentication.guard';
 import { Roles } from 'src/decorators/role.decorator';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { HttpExceptionFilter } from 'src/filter/http-exception.filter';
+import { ResponseInterceptor } from 'src/interceptor/resinterceptro';
 
+@Controller('city')
 @UseGuards(AuthGuard, AuthorizationGuard)
 @Roles(["ADMIN"])
-@Controller('city')
 @ApiBearerAuth()
 @UseFilters(HttpExceptionFilter)
+@UseInterceptors(ResponseInterceptor)
 export class CityController {
     constructor(private cityService: CityService) { }
     /**
