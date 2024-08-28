@@ -3,31 +3,34 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { HttpExceptionFilter } from './filter/http-exception.filter';
+import { SanitizeUserInterceptor } from './interceptor/usersensitive.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-    /**
-   * setup for validation 
-   */
-  app.useGlobalPipes(new ValidationPipe())
-   /**
-    * Apply filters globally
-    */
-  app.useGlobalFilters(new HttpExceptionFilter())
+  
+  // Global Validation Setup
+  app.useGlobalPipes(new ValidationPipe());
 
-  /**
-   * setup for swagger
-   */
+  // Global Exception Filter Setup
+  app.useGlobalFilters(new HttpExceptionFilter());
+
+  // Global Intercption setup
+  app.useGlobalInterceptors(new SanitizeUserInterceptor());
+  
+  // Swagger Setup
   const config = new DocumentBuilder()
-  .setTitle("User management")
-  .setDescription("For manageing users by admin")
-  .setVersion('1.0')
-  .addTag('User')
-  .addBearerAuth()
-  .build()
-  const document = SwaggerModule.createDocument(app,config)
-  SwaggerModule.setup('api',app,document)
+    .setTitle("User Management")
+    .setDescription("For managing users by admin")
+    .setVersion('1.0')
+    .addTag('User')
+    .addBearerAuth()
+    .build();
 
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
+
+  // Start listening on port 3000
   await app.listen(3000);
 }
 bootstrap();
+

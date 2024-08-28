@@ -19,13 +19,20 @@ import {
           : HttpStatus.INTERNAL_SERVER_ERROR;
         
       const exceptionResponse = exception.getResponse();
-      const error =
-        typeof response === 'string'
-          ? { message: exceptionResponse }
-          : (exceptionResponse as object);
+      let errorResponse:any
+
+      // Formatting the exception response
+    if (typeof exceptionResponse === 'string') {
+      errorResponse = { message: exceptionResponse };
+    } else if (typeof exceptionResponse === 'object') {
+      errorResponse = exceptionResponse as { message?: string; error?: string };
+      errorResponse.message = errorResponse.message || 'An unexpected error occurred';
+    } else {
+      errorResponse = { message: 'An unexpected error occurred' };
+    }
   
       response.status(status).json({
-        message:error,
+        ...errorResponse,
         timestamp: new Date().toISOString(),
         path: request.url,
       });

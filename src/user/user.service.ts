@@ -100,8 +100,10 @@ export class UserService {
     if(!users.length){
       throw new HttpException('No users found',HttpStatus.NOT_FOUND)
     }else{
-      const userWithoutPass = users.map(({ password, ...rest }) => rest);
-      return userWithoutPass;
+      // const userWithoutPass = users.map(({ password, ...rest }) => rest);
+      console.log(users);
+      
+      return users;
     }
   }
 
