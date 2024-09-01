@@ -1,0 +1,487 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>user-mangement documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">user-mangement documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content miscellaneous-variables">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Miscellaneous</li>
+  <li class="breadcrumb-item">Variables</li>
+</ol>
+
+<section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <ul class="index-list">
+                        <li>
+                            <a href="#city" title="prisma/seed-data/data.ts" ><b>city</b>&nbsp;&nbsp;&nbsp;(prisma/.../data.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#country" title="prisma/seed-data/data.ts" ><b>country</b>&nbsp;&nbsp;&nbsp;(prisma/.../data.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#prisma" title="prisma/seed.ts" ><b>prisma</b>&nbsp;&nbsp;&nbsp;(prisma/.../seed.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ROLE_KEYS" title="src/decorators/role.decorator.ts" ><b>ROLE_KEYS</b>&nbsp;&nbsp;&nbsp;(src/.../role.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#Roles" title="src/decorators/role.decorator.ts" ><b>Roles</b>&nbsp;&nbsp;&nbsp;(src/.../role.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#state" title="prisma/seed-data/data.ts" ><b>state</b>&nbsp;&nbsp;&nbsp;(prisma/.../data.ts)</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    <h3>prisma/seed-data/data.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="city"></a>
+                    <span class="name">
+                        <span ><b>city</b></span>
+                        <a href="#city"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+    // Cities for the state of Kerala (stateId: 100)
+    { name: &quot;Alappuzha&quot;, code: 10001, countryId: 0, stateId: 100 },
+    { name: &quot;Kochi&quot;, code: 10002, countryId: 0, stateId: 100 },
+    { name: &quot;Thiruvananthapuram&quot;, code: 10003, countryId: 0, stateId: 100 },
+    { name: &quot;Kollam&quot;, code: 10004, countryId: 0, stateId: 100 },
+    { name: &quot;Kottayam&quot;, code: 10005, countryId: 0, stateId: 100 },
+  
+    // Cities for the state of Maharashtra (stateId: 101)
+    { name: &quot;Mumbai&quot;, code: 10101, countryId: 0, stateId: 101 },
+    { name: &quot;Pune&quot;, code: 10102, countryId: 0, stateId: 101 },
+    { name: &quot;Nagpur&quot;, code: 10103, countryId: 0, stateId: 101 },
+    { name: &quot;Nashik&quot;, code: 10104, countryId: 0, stateId: 101 },
+    { name: &quot;Aurangabad&quot;, code: 10105, countryId: 0, stateId: 101 },
+  
+    // Cities for the state of Tamil Nadu (stateId: 102)
+    { name: &quot;Chennai&quot;, code: 10201, countryId: 0, stateId: 102 },
+    { name: &quot;Coimbatore&quot;, code: 10202, countryId: 0, stateId: 102 },
+    { name: &quot;Madurai&quot;, code: 10203, countryId: 0, stateId: 102 },
+    { name: &quot;Tiruchirappalli&quot;, code: 10204, countryId: 0, stateId: 102 },
+    { name: &quot;Salem&quot;, code: 10205, countryId: 0, stateId: 102 },
+  
+    // Cities for the state of Gujarat (stateId: 104)
+    { name: &quot;Ahmedabad&quot;, code: 10401, countryId: 0, stateId: 104 },
+    { name: &quot;Surat&quot;, code: 10402, countryId: 0, stateId: 104 },
+    { name: &quot;Vadodara&quot;, code: 10403, countryId: 0, stateId: 104 },
+    { name: &quot;Rajkot&quot;, code: 10404, countryId: 0, stateId: 104 },
+    { name: &quot;Gandhinagar&quot;, code: 10405, countryId: 0, stateId: 104 },
+  
+    // Cities for the state of Kabul (stateId: 200)
+    { name: &quot;Kabul City&quot;, code: 20001, countryId: 1, stateId: 200 },
+  
+    // Cities for the state of Herat (stateId: 201)
+    { name: &quot;Herat City&quot;, code: 20101, countryId: 1, stateId: 201 },
+  
+    // Cities for the state of Tirana (stateId: 300)
+    { name: &quot;Tirana City&quot;, code: 30001, countryId: 2, stateId: 300 },
+  
+    // Cities for the state of Algiers (stateId: 400)
+    { name: &quot;Algiers City&quot;, code: 40001, countryId: 3, stateId: 400 },
+  
+    // Cities for the state of Andorra la Vella (stateId: 500)
+    { name: &quot;Andorra la Vella City&quot;, code: 50001, countryId: 4, stateId: 500 },
+  
+    // Cities for the state of Luanda (stateId: 600)
+    { name: &quot;Luanda City&quot;, code: 60001, countryId: 5, stateId: 600 },
+  
+    // Cities for the state of Buenos Aires (stateId: 700)
+    { name: &quot;Buenos Aires City&quot;, code: 70001, countryId: 6, stateId: 700 },
+  
+    // Cities for the state of Yerevan (stateId: 800)
+    { name: &quot;Yerevan City&quot;, code: 80001, countryId: 7, stateId: 800 },
+  
+    // Cities for the state of New South Wales (stateId: 900)
+    { name: &quot;Sydney&quot;, code: 90001, countryId: 8, stateId: 900 },
+    { name: &quot;Newcastle&quot;, code: 90002, countryId: 8, stateId: 900 },
+  
+    // Cities for the state of Vienna (stateId: 1000)
+    { name: &quot;Vienna City&quot;, code: 100001, countryId: 9, stateId: 1000 },
+  ]</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="country"></a>
+                    <span class="name">
+                        <span ><b>country</b></span>
+                        <a href="#country"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+    {code:0 , name : &quot;india&quot;},
+    { code: 1, name: &quot;Afghanistan&quot; },
+    { code: 2, name: &quot;Albania&quot; },
+    { code: 3, name: &quot;Algeria&quot; },
+    { code: 4, name: &quot;Andorra&quot; },
+    { code: 5, name: &quot;Angola&quot; },
+    { code: 6, name: &quot;Argentina&quot; },
+    { code: 7, name: &quot;Armenia&quot; },
+    { code: 8, name: &quot;Australia&quot; },
+    { code: 9, name: &quot;Austria&quot; },
+    { code: 10, name: &quot;Azerbaijan&quot; },
+  ]</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="state"></a>
+                    <span class="name">
+                        <span ><b>state</b></span>
+                        <a href="#state"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+    // States for India (countryId: 0)
+    { name: &quot;Kerala&quot;, code: 100, countryId: 0 },
+    { name: &quot;Maharashtra&quot;, code: 101, countryId: 0 },
+    { name: &quot;Tamil Nadu&quot;, code: 102, countryId: 0 },
+    { name: &quot;Karnataka&quot;, code: 103, countryId: 0 },
+    { name: &quot;Gujarat&quot;, code: 104, countryId: 0 },
+  
+    // States for Afghanistan (countryId: 1)
+    { name: &quot;Kabul&quot;, code: 200, countryId: 1 },
+    { name: &quot;Herat&quot;, code: 201, countryId: 1 },
+    { name: &quot;Kandahar&quot;, code: 202, countryId: 1 },
+  
+    // States for Albania (countryId: 2)
+    { name: &quot;Tirana&quot;, code: 300, countryId: 2 },
+    { name: &quot;Durrës&quot;, code: 301, countryId: 2 },
+  
+    // States for Algeria (countryId: 3)
+    { name: &quot;Algiers&quot;, code: 400, countryId: 3 },
+    { name: &quot;Oran&quot;, code: 401, countryId: 3 },
+    { name: &quot;Constantine&quot;, code: 402, countryId: 3 },
+  
+    // States for Andorra (countryId: 4)
+    { name: &quot;Andorra la Vella&quot;, code: 500, countryId: 4 },
+    { name: &quot;Escaldes-Engordany&quot;, code: 501, countryId: 4 },
+  
+    // States for Angola (countryId: 5)
+    { name: &quot;Luanda&quot;, code: 600, countryId: 5 },
+    { name: &quot;Huambo&quot;, code: 601, countryId: 5 },
+    { name: &quot;Benguela&quot;, code: 602, countryId: 5 },
+  
+    // States for Argentina (countryId: 6)
+    { name: &quot;Buenos Aires&quot;, code: 700, countryId: 6 },
+    { name: &quot;Córdoba&quot;, code: 701, countryId: 6 },
+    { name: &quot;Santa Fe&quot;, code: 702, countryId: 6 },
+  
+    // States for Armenia (countryId: 7)
+    { name: &quot;Yerevan&quot;, code: 800, countryId: 7 },
+    { name: &quot;Gyumri&quot;, code: 801, countryId: 7 },
+  
+    // States for Australia (countryId: 8)
+    { name: &quot;New South Wales&quot;, code: 900, countryId: 8 },
+    { name: &quot;Victoria&quot;, code: 901, countryId: 8 },
+    { name: &quot;Queensland&quot;, code: 902, countryId: 8 },
+  
+    // States for Austria (countryId: 9)
+    { name: &quot;Vienna&quot;, code: 1000, countryId: 9 },
+    { name: &quot;Salzburg&quot;, code: 1001, countryId: 9 },
+    { name: &quot;Tyrol&quot;, code: 1002, countryId: 9 },
+  
+  ]</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>prisma/seed.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="prisma"></a>
+                    <span class="name">
+                        <span ><b>prisma</b></span>
+                        <a href="#prisma"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new PrismaClient()</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/decorators/role.decorator.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ROLE_KEYS"></a>
+                    <span class="name">
+                        <span ><b>ROLE_KEYS</b></span>
+                        <a href="#ROLE_KEYS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;role&#x27;</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="Roles"></a>
+                    <span class="name">
+                        <span ><b>Roles</b></span>
+                        <a href="#Roles"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(role: string[]) &#x3D;&gt; SetMetadata(ROLE_KEYS, role)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'miscellaneous-variables';
+            var COMPODOC_CURRENT_PAGE_URL = 'variables.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
